@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рейтинг гравців</title>
+</head>
+<body>
+    <h1>Рейтинг гравців</h1>
+
+    <form method="POST">
+        <input type="text" name="search" placeholder="Пошук за ім’ям" value="{{ request.form.get('search', '') }}">
+        <button type="submit">Шукати</button>
+    </form>
+
+    <p>Загальна кількість гравців: {{ total_players }}</p>
+    <p>Середній рейтинг: {{ avg_score|round(2) }}</p>
+
+    <table border="1">
+        <tr>
+            <th>Ім'я гравця</th>
+            <th>Рівень</th>
+            <th>Очки</th>
+            <th>Час у грі (хв)</th>
+            <th>Дії</th>
+        </tr>
+
+        {% for player in players %}
+        <tr>
+            <td>{{ player[0] }}</td>
+            <td>{{ player[1] }}</td>
+            <td>{{ player[2] }}</td>
+            <td>{{ player[3] }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('delete_player', name=player[0]) }}">
+                    <button type="submit">Видалити</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
